@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>砥石データベース｜TOGIYA 研屋</title>
+<meta name="description" content="天然砥石を鉱山・層・硬度・価格帯で横断検索できるデータベース。全数テスト済み、硬度はLv1〜5+に統一表記。毒筋の有無とテスト結果も公開しています。">
+<style>
+  :root{
+    --bg:#f3f0e9; --bg-soft:#faf8f2; --ink:#2a2721; --ink-soft:#5c574b;
+    --muted:#8a8474; --line:#ddd6c6; --gold:#a8862f; --shu:#a03a26;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.9;font-size:15px;}
+  h1,h2,h3,.serif{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","YuMincho","Yu Mincho","Noto Serif JP",serif;font-weight:600;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+  header{border-bottom:1px solid var(--line);background:var(--bg-soft);}
+  .header-in{display:flex;align-items:center;justify-content:space-between;padding:16px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-family:"Hiragino Mincho ProN","YuMincho",serif;font-size:20px;letter-spacing:.18em;text-decoration:none;}
+  .logo span{color:var(--gold);}
+  nav{display:flex;gap:20px;flex-wrap:wrap;}
+  nav a{text-decoration:none;font-size:13px;letter-spacing:.08em;color:var(--ink-soft);}
+  nav a:hover{color:var(--shu);}
+  .page-head{padding:54px 0 8px;text-align:center;}
+  .page-head .en{font-size:11px;letter-spacing:.4em;color:var(--gold);margin-bottom:10px;}
+  .page-head h1{font-size:30px;letter-spacing:.14em;}
+  .page-head p{color:var(--ink-soft);margin-top:14px;font-size:14px;max-width:680px;margin-left:auto;margin-right:auto;}
+  .sample-note{max-width:820px;margin:26px auto 0;background:#f7ead9;border:1px solid #e0c491;border-radius:4px;padding:12px 18px;font-size:13px;color:#7a5a18;text-align:center;}
+  .filters{max-width:1080px;margin:34px auto 0;background:var(--bg-soft);border:1px solid var(--line);border-radius:4px;padding:20px;}
+  .filters-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media(max-width:860px){.filters-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:480px){.filters-grid{grid-template-columns:1fr;}}
+  .filters label{display:block;font-size:11px;letter-spacing:.14em;color:var(--muted);margin-bottom:6px;}
+  .filters select{width:100%;padding:10px;border:1px solid var(--line);border-radius:3px;background:#fff;font-size:14px;color:var(--ink);}
+  .filters-bar{display:flex;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap;gap:10px;}
+  .count{font-size:13px;color:var(--ink-soft);}
+  .reset-btn{background:none;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:7px 18px;border-radius:999px;font-size:12px;letter-spacing:.1em;cursor:pointer;}
+  .reset-btn:hover{border-color:var(--shu);color:var(--shu);}
+  .results{padding:36px 0 90px;}
+  .stone-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media(max-width:960px){.stone-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.stone-grid{grid-template-columns:1fr;}}
+  .stone-card{background:var(--bg-soft);border:1px solid var(--line);border-radius:4px;padding:22px;display:flex;flex-direction:column;}
+  .stone-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;}
+  .stone-card h2{font-size:18px;letter-spacing:.04em;line-height:1.5;}
+  .badge{flex-shrink:0;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);letter-spacing:.06em;}
+  .badge.neg{border-color:var(--muted);color:var(--muted);}
+  .badge.sold{border-color:var(--shu);color:var(--shu);}
+  .stone-meta{font-size:12px;color:var(--muted);letter-spacing:.06em;margin-bottom:14px;}
+  .stone-card dl{display:grid;grid-template-columns:86px 1fr;row-gap:5px;font-size:13px;margin-bottom:14px;}
+  .stone-card dt{color:var(--muted);}
+  .stone-card dd{color:var(--ink);}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+  .tag{font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--ink-soft);}
+  .test{font-size:12.5px;color:var(--ink-soft);background:var(--bg);border-radius:3px;padding:10px 12px;line-height:1.8;margin-top:auto;}
+  .test strong{color:var(--ink);font-weight:600;}
+  .price-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);}
+  .price{font-family:"Hiragino Mincho ProN","YuMincho",serif;font-size:20px;}
+  .price small{font-size:11px;color:var(--muted);}
+  .pergram{font-size:12px;color:var(--muted);}
+  .status-msg{text-align:center;color:var(--muted);padding:40px 0;grid-column:1/-1;}
+  footer{border-top:1px solid var(--line);background:var(--bg-soft);padding:34px 0;text-align:center;font-size:12px;color:var(--muted);letter-spacing:.08em;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-in">
+    <a class="logo" href="index.html">TOGIYA <span>研屋</span></a>
+    <nav>
+      <a href="index.html#concept">コンセプト</a>
+      <a href="index.html#business">事業紹介</a>
+      <a href="db.html">砥石データベース</a>
+      <a href="blog/index.html">ブログ</a>
+      <a href="index.html#contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="en">NATURAL WHETSTONE DATABASE</p>
+    <h1>砥石データベース</h1>
+    <p>鉱山・層・硬度・価格帯で、店を横断して石を比べられる場所を目指しています。硬度はLv1〜5+に統一表記し、全点にテスト結果と毒筋の有無を添えています。</p>
+  </div>
+
+  <!-- 注意：現在表示されているのは表示確認用のサンプルデータです。実在庫とは異なります。 -->
+  <p class="sample-note">※ 現在の収録データは<strong>サンプルデータ</strong>です。石の名称・価格・在庫状況は表示確認用のもので、実際の在庫とは異なります。</p>
+
+  <section class="filters" aria-label="絞り込み">
+    <div class="filters-grid">
+      <div>
+        <label for="fMine">鉱山</label>
+        <select id="fMine"><option value="">すべて</option></select>
+      </div>
+      <div>
+        <label for="fLayer">層</label>
+        <select id="fLayer"><option value="">すべて</option></select>
+      </div>
+      <div>
+        <label for="fHardness">硬度（Lv）</label>
+        <select id="fHardness">
+          <option value="">すべて</option>
+          <option value="soft">〜 Lv 3.5（軟らかめ）</option>
+          <option value="mid">Lv 4 〜 4.5（中間）</option>
+          <option value="hard">Lv 5 〜（硬質）</option>
+        </select>
+      </div>
+      <div>
+        <label for="fPrice">価格帯</label>
+        <select id="fPrice">
+          <option value="">すべて</option>
+          <option value="p1">〜 30,000円</option>
+          <option value="p2">30,001 〜 80,000円</option>
+          <option value="p3">80,001 〜 150,000円</option>
+          <option value="p4">150,001円 〜</option>
+        </select>
+      </div>
+    </div>
+    <div class="filters-bar">
+      <p class="count" id="resultCount">読み込んでいます…</p>
+      <button class="reset-btn" id="resetBtn" type="button">条件をリセット</button>
+    </div>
+  </section>
+
+  <section class="results">
+    <div class="stone-grid" id="stoneGrid">
+      <p class="status-msg" id="dbStatus">データを読み込んでいます…</p>
+      <noscript><p class="status-msg">データベースの表示にはJavaScriptが必要です。</p></noscript>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>TOGIYA 研屋｜天然砥石と漆・金継ぎ材料の仲介</p>
+</footer>
+
+<script>
+(function(){
+  var grid = document.getElementById('stoneGrid');
+  var countEl = document.getElementById('resultCount');
+  var selMine = document.getElementById('fMine');
+  var selLayer = document.getElementById('fLayer');
+  var selHard = document.getElementById('fHardness');
+  var selPrice = document.getElementById('fPrice');
+  var stones = [];
+
+  function esc(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function yen(n){ return '¥' + Number(n).toLocaleString('ja-JP'); }
+  function badgeClass(stock){
+    if(stock === '在庫あり') return 'badge';
+    if(stock === '売約済み') return 'badge sold';
+    return 'badge neg';
+  }
+  function fillSelect(sel, values){
+    values.forEach(function(v){
+      var o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      sel.appendChild(o);
+    });
+  }
+  function matchHard(s){
+    var v = selHard.value, h = Number(s.hardness);
+    if(v === 'soft') return h <= 3.5;
+    if(v === 'mid') return h >= 4 && h <= 4.5;
+    if(v === 'hard') return h >= 5;
+    return true;
+  }
+  function matchPrice(s){
+    var v = selPrice.value, p = Number(s.price);
+    if(v === 'p1') return p <= 30000;
+    if(v === 'p2') return p > 30000 && p <= 80000;
+    if(v === 'p3') return p > 80000 && p <= 150000;
+    if(v === 'p4') return p > 150000;
+    return true;
+  }
+  function render(){
+    var mine = selMine.value, layer = selLayer.value;
+    var list = stones.filter(function(s){
+      return (!mine || s.mine === mine)
+        && (!layer || s.layer === layer)
+        && matchHard(s) && matchPrice(s);
+    });
+    countEl.textContent = '全 ' + stones.length + ' 件中 ' + list.length + ' 件を表示';
+    grid.innerHTML = '';
+    if(list.length === 0){
+      grid.innerHTML = '<p class="status-msg">条件に合う石が見つかりませんでした。条件を変えてお試しください。</p>';
+      return;
+    }
+    list.forEach(function(s){
+      var tags = (s.suitability || []).map(function(t){ return '<span class="tag">' + esc(t) + '</span>'; }).join('');
+      var card = document.createElement('article');
+      card.className = 'stone-card';
+      card.innerHTML =
+        '<div class="stone-top"><h2>' + esc(s.name) + '</h2><span class="' + badgeClass(s.stock) + '">' + esc(s.stock) + '</span></div>' +
+        '<p class="stone-meta">' + esc(s.id) + '｜' + esc(s.mine) + '／' + esc(s.layer) + '｜' + esc(s.color) + '</p>' +
+        '<dl>' +
+          '<dt>硬度</dt><dd>' + esc(s.hardnessLabel) + '</dd>' +
+          '<dt>推定粒度</dt><dd>' + esc(s.grit) + '</dd>' +
+          '<dt>寸法</dt><dd>' + esc(s.size) + '</dd>' +
+          '<dt>重量</dt><dd>' + Number(s.weight_g).toLocaleString('ja-JP') + ' g</dd>' +
+          '<dt>毒筋</dt><dd>' + esc(s.toxicLine) + '</dd>' +
+          '<dt>細かさ</dt><dd>' + esc(s.fineness) + '</dd>' +
+        '</dl>' +
+        '<div class="tags">' + tags + '</div>' +
+        '<p class="test"><strong>テスト結果：</strong>' + esc(s.testResult) + '</p>' +
+        '<div class="price-row"><p class="price">' + yen(s.price) + ' <small>税込</small></p><p class="pergram">' + yen(s.pricePerGram) + ' / g</p></div>';
+      grid.appendChild(card);
+    });
+  }
+
+  [selMine, selLayer, selHard, selPrice].forEach(function(sel){
+    sel.addEventListener('change', render);
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    selMine.value = ''; selLayer.value = ''; selHard.value = ''; selPrice.value = '';
+    render();
+  });
+
+  fetch('stones.json')
+    .then(function(r){ if(!r.ok) throw new Error('load error'); return r.json(); })
+    .then(function(data){
+      stones = data.stones || [];
+      var mines = [], layers = [];
+      stones.forEach(function(s){
+        if(mines.indexOf(s.mine) === -1) mines.push(s.mine);
+        if(layers.indexOf(s.layer) === -1) layers.push(s.layer);
+      });
+      fillSelect(selMine, mines);
+      fillSelect(selLayer, layers);
+      render();
+    })
+    .catch(function(){
+      countEl.textContent = '';
+      grid.innerHTML = '<p class="status-msg">データを読み込めませんでした。時間をおいて再度お試しください。</p>';
+    });
+})();
+</script>
+
+</body>
+</html>
