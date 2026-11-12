@@ -275,7 +275,7 @@
 </section>
 
 <!-- Contact -->
-<!-- お問い合わせフォーム：送信ボタンでメールアプリが開く mailto 方式。宛先は naoren.38@gmail.com、件名・本文にはフォーム入力内容を自動で組み込みます。 -->
+<!-- お問い合わせフォーム：FormSubmit 経由で送信（宛先 naoren.38@gmail.com） -->
 <section id="contact">
   <div class="wrap">
     <div class="sec-head">
@@ -285,11 +285,15 @@
       <p class="contact-mail">メールでのお問い合わせ：<a href="mailto:naoren.38@gmail.com">naoren.38@gmail.com</a></p>
     </div>
     <div class="contact-box">
-      <form id="contact-form">
+      <form id="contact-form" action="https://formsubmit.co/naoren.38@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="【TOGIYA 研屋】お問い合わせ">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none">
         <label for="cName">お名前</label>
-        <input id="cName" type="text" name="name" placeholder="山田 太郎">
+        <input id="cName" type="text" name="name" placeholder="山田 太郎" required>
         <label for="cEmail">メールアドレス</label>
-        <input id="cEmail" type="email" name="email" placeholder="example@example.com">
+        <input id="cEmail" type="email" name="email" placeholder="example@example.com" required>
         <label for="cType">お問い合わせ種別</label>
         <select id="cType" name="type">
           <option>砥石の購入・鑑定について</option>
@@ -298,27 +302,38 @@
           <option>その他</option>
         </select>
         <label for="cMsg">お問い合わせ内容</label>
-        <textarea id="cMsg" name="message" placeholder="ご相談の内容をお書きください"></textarea>
-        <p class="contact-note">※ 送信ボタンを押すとメールアプリが開きます。宛先と内容をご確認のうえ、そのまま送信してください。</p>
+        <textarea id="cMsg" name="message" placeholder="ご相談の内容をお書きください" required></textarea>
+        <p class="contact-note">※ 送信ボタンを押すと、上記の内容がそのまま送信されます。ご返信はご入力のメールアドレス宛てに行います。</p>
         <button type="submit">送信する</button>
       </form>
-      <script>
-      document.getElementById('contact-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var name = document.getElementById('cName').value;
-        var email = document.getElementById('cEmail').value;
-        var type = document.getElementById('cType').value;
-        var message = document.getElementById('cMsg').value;
-        var subject = '【TOGIYA 研屋】お問い合わせ（' + type + '）';
-        var body = 'お名前：' + name + '\n'
-          + 'メールアドレス：' + email + '\n'
-          + 'お問い合わせ種別：' + type + '\n\n'
-          + '【お問い合わせ内容】\n' + message;
-        window.location.href = 'mailto:naoren.38@gmail.com'
-          + '?subject=' + encodeURIComponent(subject)
-          + '&body=' + encodeURIComponent(body);
-      });
-      </script>
+      <div id="contact-done" style="display:none"><p><strong>送信しました。</strong>お問い合わせありがとうございます。内容を確認のうえ、ご入力のメールアドレスへご返信いたします。</p></div>
+      <div id="contact-error" style="display:none"><p>送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、メールでご連絡ください。</p></div>
+<script>
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var form = this, btn = form.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = '送信中…'; }
+  var data = {};
+  new FormData(form).forEach(function (v, k) { data[k] = v; });
+  data._replyto = data.email;
+  fetch('https://formsubmit.co/ajax/" + EMAIL + "', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(function (r) { if (!r.ok) throw new Error('bad'); return r.json(); })
+    .then(function () {
+      form.style.display = 'none';
+      document.getElementById('contact-done').style.display = 'block';
+    })
+    .catch(function () {
+      if (btn) { btn.disabled = false; btn.textContent = '送信する'; }
+      document.getElementById('contact-error').style.display = 'block';
+    });
+});
+</script>
+    </div>
+  </div>
+</section>
     </div>
   </div>
 </section>
