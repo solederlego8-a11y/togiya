@@ -1,0 +1,18 @@
+# TOGIYA 研屋
+
+> 天然砥石を「鑑定と保証」で選ぶ専門店。全数テスト済みで硬度と粒度を数値化し産地を保証する天然砥石の販売、横断検索できる砥石データベース、金継ぎ材料のリフィル供給を行う。英語版ブログも併設。運営：編集部。最終更新日：2026-11-16。
+
+## 主要ページ
+
+- [トップ](https://solederlego8-a11y.github.io/togiya/)
+- [砥石データベース](https://solederlego8-a11y.github.io/togiya/db.html)
+- [ブログ](https://solederlego8-a11y.github.io/togiya/blog/)
+- [English blog](https://solederlego8-a11y.github.io/togiya/en/blog/)
+
+## 記事（代表）
+
+- [天然砥石と人造砥石の違い](https://solederlego8-a11y.github.io/togiya/blog/post-natural-vs-artificial.html)
+- [砥石の硬度の見方](https://solederlego8-a11y.github.io/togiya/blog/post-hardness.html)
+- [粒度の換算](https://solederlego8-a11y.github.io/togiya/blog/post-grit-conversion.html)
+- [金継ぎの費用](https://solederlego8-a11y.github.io/togiya/blog/post-kintsugi-cost.html)
+- [金継ぎのはじめ方](https://solederlego8-a11y.github.io/togiya/blog/post-kintsugi-start.html)
