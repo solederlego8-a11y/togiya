@@ -1,6 +1,6 @@
 # TOGIYA 研屋
 
-> 天然砥石を「鑑定と保証」で選ぶ専門店。全数テスト済みで硬度と粒度を数値化し産地を保証する天然砥石の販売、横断検索できる砥石データベース、金継ぎ材料のリフィル供給を行う。英語版ブログも併設。運営：編集部。最終更新日：2026-11-16。
+> 天然砥石を「鑑定と保証」で選ぶ専門店。全数テスト済みで硬度と粒度を数値化し産地を保証する天然砥石の販売、横断検索できる砥石データベース、金継ぎ材料のリフィル供給を行う。英語版ブログも併設。運営：編集部。最終更新日：2026-11-23。
 
 ## 主要ページ
 
@@ -11,6 +11,8 @@
 
 ## 記事（代表）
 
+- [砥石の目詰まりの洗い方と予防のコツ｜切れ味が戻らないときの対処](https://solederlego8-a11y.github.io/togiya/blog/post-clogged-stone-wash.html)
+- [砥石の欠け・ひび割れは直せる？直せる範囲と買い替えの目安](https://solederlego8-a11y.github.io/togiya/blog/post-chipped-cracked-stone.html)
 - [天然砥石と人造砥石の違い](https://solederlego8-a11y.github.io/togiya/blog/post-natural-vs-artificial.html)
 - [砥石の硬度の見方](https://solederlego8-a11y.github.io/togiya/blog/post-hardness.html)
 - [粒度の換算](https://solederlego8-a11y.github.io/togiya/blog/post-grit-conversion.html)

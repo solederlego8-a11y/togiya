@@ -1,6 +1,22 @@
 {
  "posts": [
   {
+   "slug": "post-clogged-stone-wash",
+   "title": "砥石の目詰まりの洗い方と予防のコツ｜切れ味が戻らないときの対処",
+   "date": "2026-11-23",
+   "category": "砥石の基礎知識",
+   "excerpt": "砥石の目詰まりで切れ味が戻らないときの洗い方を、面直しとの違い、洗う手順、研ぎ方側の予防策まで、家庭用の砥石を前提に整理します。",
+   "thumb": "../images/blog-thumb-maintenance.jpg"
+  },
+  {
+   "slug": "post-chipped-cracked-stone",
+   "title": "砥石の欠け・ひび割れは直せる？直せる範囲と買い替えの目安",
+   "date": "2026-11-23",
+   "category": "砥石の基礎知識",
+   "excerpt": "砥石の角の欠け、表面のひび割れ、割れを、直して使える範囲と買い替えたほうがよい範囲に分けて整理し、面直しで整える手順も示します。",
+   "thumb": "../images/craft-stones.jpg"
+  },
+  {
    "slug": "post-burr-removal",
    "title": "包丁研ぎのバリ（かえり）の見分け方と取り方 ― 研いでも切れない原因はここにある",
    "date": "2026-11-13",
