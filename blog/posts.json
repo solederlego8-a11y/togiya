@@ -1,6 +1,14 @@
 {
  "posts": [
   {
+   "slug": "post-sharpening-angle",
+   "title": "包丁の研ぎ角度の目安｜片刃・両刃の違いと角度を保つコツ",
+   "date": "2026-11-24",
+   "category": "砥石の基礎知識",
+   "excerpt": "包丁の研ぎ角度は片刃と両刃で目安が変わります。寝かせすぎ・立てすぎで起きる失敗、研ぎながら角度を保つための体の使い方と確認方法を整理します。",
+   "thumb": "../images/blog-thumb-knife-stone.jpg"
+  },
+  {
    "slug": "post-clogged-stone-wash",
    "title": "砥石の目詰まりの洗い方と予防のコツ｜切れ味が戻らないときの対処",
    "date": "2026-11-23",
